@@ -15,8 +15,10 @@ jobs:
         echo "Tag name from GITHUB_REF_NAME: $GITHUB_REF_NAME"
         echo "Tag name from github.ref_name: ${{  github.ref_name }}"
     - name: Build the Docker image with github tag    
-      run: docker build . --tag oopandaoo/botgpt:$GITHUB_REF_NAME
+      run: docker build . --tag oopandaoo/botgpt:$GITHUB_REF_NAME --tag oopandaoo/botgpt:latest
     - name: Log in to the Container registry
       run: echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
     - name: Push image to the docker hub registry
-      run: docker push oopandaoo/botgpt:$GITHUB_REF_NAME
+      run: |
+        docker push oopandaoo/botgpt:$GITHUB_REF_NAME
+        docker push oopandaoo/botgpt:latest
