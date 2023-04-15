@@ -2,10 +2,10 @@ name: Docker Image CI
 
 on:
   push:
+    tags:        
+      - '*'           # Push events to every tag not containing /
     branches: [ "main" ]
   pull_request:
-    branches: [ "main" ]
-
 jobs:
 
   build:
@@ -15,5 +15,8 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag bot:$(date +%s)
+      run: docker build . --tag oopandaoo/botgpt:{{ github.ref }}
+    - name: Log in to the Container registry
+      run: echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
     - name: Push image to the docker hub registry
+      run: docker push oopandaoo/botgpt:{{ github.ref }}
