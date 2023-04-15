@@ -4,8 +4,6 @@ on:
   push:
     tags:        
       - '*'           # Push events to every tag not containing /
-    branches: [ "main" ]
-  pull_request:
 jobs:
 
   build:
